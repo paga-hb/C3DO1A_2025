@@ -57,3 +57,22 @@ Then follow the steps below to download the Github repository and start working 
 
 Now Visual Studio Code is configured to run Python code, and Jupyter Notebooks, from your virtual environment, i.e. now you can open any notebook and execute the notebook cells.
 
+
+
+
+## Setup
+
+### Software
+
+Install the following software on your computer:
+
+  -  [Docker Desktop](https://docs.docker.com/desktop) (or Docker Engine if on Linux)
+  -  [Visual Studio Code](https://code.visualstudio.com)
+  -  [Miniconda](https://docs.anaconda.com/miniconda/install/#quick-command-line-install)
+  -  [Git](https://git-scm.com/downloads)
+
+### Course Repository
+
+Download the following GitHub repository to your computer
+
+- `git clone `
