@@ -1,4 +1,4 @@
-# C3DO1A_2025: DevOps (Spring 2025)
+# DevOps (C3DO1A) Spring 2025
 This is the repository for the DevOps (Spring 2025) course at Borås University.
 
 ## Environment Setup
