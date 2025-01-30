@@ -1,0 +1,42 @@
+﻿@inject RestService RestService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<div class="modal fade" id="@GetModalId(Video)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">@title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="@ConfirmAsync">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+    [Parameter]
+    public Video? Video {get; set;}
+
+    private string title = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        title = $"Delete {Video?.Name}?";
+    }
+
+    public static string GetModalId(Video? video)
+    {
+        ArgumentNullException.ThrowIfNull(video);
+        return $"deleteModal-{video.Id}";
+    }
+
+    private async Task ConfirmAsync()
+    {
+        await RestService.DeleteVideoAsync(Video!.Id);
+        NavigationManager.Refresh();
+    }
+}

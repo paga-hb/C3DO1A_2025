@@ -1,0 +1,57 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-streaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-streaming
+  template:
+    metadata:
+      labels:
+        app: video-streaming
+    spec:
+      containers: 
+      - name: video-streaming
+        image: video-streaming:1
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: FLIXTUBE_VIDEO_STREAMING_PORT
+          value: "4040"
+        - name: FLIXTUBE_VIDEO_STORAGE_SCHEME
+          value: http
+        - name: FLIXTUBE_VIDEO_STORAGE_HOST
+          value: video-storage
+        - name: FLIXTUBE_VIDEO_STORAGE_PORT
+          value: "4060"
+        - name: FLIXTUBE_RABBIT_MQ_HOST
+          value: amqp://rabbit_user:rabbit_password@rabbit:5672
+        ports:
+        - containerPort: 4040
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-streaming
+spec:
+  selector:
+    app: video-streaming
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 4040
+      targetPort: 4040

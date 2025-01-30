@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: over-container-memory-limit
+spec:
+  restartPolicy: Always
+  containers:
+  - name: over-container-memory-limit
+    image: polinux/stress
+    resources:
+      requests:
+        cpu: 15m
+        memory: 50Mi
+      limits:
+        cpu: 30m
+        memory: 100Mi
+    command: [stress]
+    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1"]

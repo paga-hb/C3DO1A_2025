@@ -1,0 +1,6 @@
+@Flixtube.MinioStorage_HostAddress = http://localhost:5128
+
+GET {{Flixtube.MinioStorage_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

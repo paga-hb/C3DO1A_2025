@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /src
+EXPOSE 80
+COPY ./*.sln ./
+COPY ./Flixtube.Web/*.csproj ./Flixtube.Web/
+# COPY ./Flixtube.Web.EndToEndTests/*.csproj ./Flixtube.Web.EndToEndTests/
+COPY ./Flixtube.Web.EndToEndTests ./Flixtube.Web.EndToEndTests
+
+WORKDIR /src/Flixtube.Web.EndToEndTests
+RUN ["dotnet","build"]
+RUN ["dotnet","tool","install","--global","Microsoft.Playwright.CLI"]
+RUN ["pwsh","bin/Debug/net9.0/playwright.ps1","install-deps"]
+RUN ["pwsh","bin/Debug/net9.0/playwright.ps1","install"]
+
+WORKDIR /src
+RUN ["dotnet","restore"]
+CMD ["dotnet","watch","run","--no-launch-profile","--project","Flixtube.Web"]

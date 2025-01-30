@@ -1,0 +1,74 @@
+# 
+# GitHub Actions workflow to build and deploy the Flixtube.Gateway microservice
+#
+
+# This is the name of the workflow, displayed under GitHub Actions
+name: Deploy Flixtube.Gateway
+
+# Controls when the workflow will run
+on:
+
+  # Triggers the workflow on push to the main branch but only when changes have been made to the Flixtube.Gateway subfolder
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - Flixtube.Gateway/**
+
+  # Triggers the workflow on pull_request to the main branch but only when changes have been made to the Flixtube.Gateway subfolder
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - Flixtube.Gateway/**
+  
+  # Allows deployment to be invoked manually through the GitHub Actions user interface.
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # This workflow contains a single job called "deploy"
+  deploy:
+    
+    # Runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+    
+    # Environment variables that are available to all the steps in this job
+    # "github.sha" is the hash of the commit that triggered the workflow
+    # "secrets.<NAME>" is either a SECRET or a VARIABLE defined under "Settings -> Secrets and variables -> Actions"
+    env:
+      AZURE_CONTAINER_REGISTRY_HOSTNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_HOSTNAME }}
+      AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+      AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+      AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+      AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+      IMAGE_NAME: gateway
+      IMAGE_VERSION: ${{ github.sha }}
+      MICROSERVICE_NAME: gateway
+      MICROSERVICE_DIRECTORY: Flixtube.Gateway
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      
+      # Checks-out your repository (under $GITHUB_WORKSPACE).
+      - uses: actions/checkout@v3
+
+      # Builds the Docker image.
+      - name: Build
+        run: chmod +x ./scripts/cicd/build-image.sh && ./scripts/cicd/build-image.sh
+
+      # Publishes the Docker image to the Azure Container Registry.
+      - name: Publish
+        run: chmod +x ./scripts/cicd/push-image.sh && ./scripts/cicd/push-image.sh
+
+      # Installs Kubectl and connects it to the cluster.
+      # https://github.com/marketplace/actions/kubernetes-cli-kubectl
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+          kubectl-version: v1.24.2
+      
+      # Expands the configuration template and deploys the microservice.
+      - name: Deploy
+        run: chmod +x ./scripts/cicd/deploy.sh && ./scripts/cicd/deploy.sh

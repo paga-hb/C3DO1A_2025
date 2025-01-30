@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /src
+EXPOSE 80
+COPY ./*.sln ./
+COPY ./Flixtube.Gateway/*.csproj ./Flixtube.Gateway/
+COPY ./Flixtube.Gateway.UnitTests/*.csproj ./Flixtube.Gateway.UnitTests/
+COPY ./Flixtube.Gateway.IntegrationTests/*.csproj ./Flixtube.Gateway.IntegrationTests/
+RUN ["dotnet","restore"]
+CMD ["dotnet","watch","run","--no-launch-profile","--project","Flixtube.Gateway"]

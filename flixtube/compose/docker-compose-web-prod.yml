@@ -1,0 +1,255 @@
+services:
+
+  rabbit:
+    image: rabbitmq:4.0.2-management
+    # image: rabbitmq:4.0.2
+    container_name: rabbit
+    hostname: rabbithost
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbit_user
+      - RABBITMQ_DEFAULT_PASS=rabbit_password
+      - RABBITMQ_LOG_LEVEL=error
+      - RABBITMQ_LOGS="-"
+    restart: always
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq/mnesia/
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    hostname: sqlserver
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@55w0rd
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  # cloudbeaver:
+  #   image: dbeaver/cloudbeaver:24.3.1
+  #   container_name: cloudbeaver
+  #   ports:
+  #     - 8978:8978
+  #   environment:
+  #     - CB_USER=admin
+  #     - CB_PASSWORD=admin
+  #     - CB_ADMIN_NAME=admin
+  #     - CB_ADMIN_PASSWORD=admin
+  #   # restart: always
+  #   # volumes:
+  #   #   - cloudbeaver_data:/opt/cloudbeaver/workspace
+
+  minio:
+    image: minio/minio:RELEASE.2024-10-13T13-34-11Z
+    container_name: minio
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: 'minio_user'
+      MINIO_ROOT_PASSWORD: 'minio_password'
+      MINIO_ADDRESS: ':9000'
+      MINIO_CONSOLE_ADDRESS: ':9001'
+    restart: always
+    volumes:
+      - minio_data:/data
+    command: minio server /data --address "0.0.0.0:9000" --console-address ":9001"
+
+  minio-mc:
+    image: minio/mc:RELEASE.2024-10-08T09-37-26Z
+    container_name: minio-mc
+    depends_on:
+      - minio
+    restart: no
+    volumes:
+      # - ./fixtures/minio_initialize_and_seed.sh:/docker-entrypoint-initdb.d/minio_import.sh
+      - ./fixtures/minio_initialize.sh:/docker-entrypoint-initdb.d/minio_import.sh
+      - ./fixtures/SampleVideo_1280x720_1mb.mp4:/tmp/videos/5d9e690ad76fe06a3d7ae416
+    entrypoint: ["bash", "/docker-entrypoint-initdb.d/minio_import.sh"]
+
+  minio-storage:
+    image: minio-storage
+    build: 
+      context: ./Flixtube.MinioStorage
+      dockerfile: Dockerfile-prod
+    container_name: video-storage
+    ports:
+     - 4060:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_MINIO_STORAGE_PORT=80
+      - FLIXTUBE_STORAGE_ENDPOINT=minio:9000
+      - FLIXTUBE_STORAGE_ACCESS_KEY=Y42xk0CJlYV2fnShCtBP
+      - FLIXTUBE_STORAGE_SECRET_KEY=kCA01XftotivPbU9TRJ5Nrr5VMjFZNEhQhtvfWyY
+      - FLIXTUBE_STORAGE_BUCKET_NAME=videos
+    depends_on:
+      - minio
+    restart: always
+
+  # azure-storage:
+  #   image: azure-storage
+  #   build: 
+  #     context: ./Flixtube.AzureStorage
+  #     dockerfile: Dockerfile-prod
+  #   container_name: video-storage
+  #   ports:
+  #    - 4060:80
+  #   environment:
+  #     - FLIXTUBE_AZURE_STORAGE_PORT=80
+  #     # - FLIXTUBE_STORAGE_ACCOUNT_NAME=${FLIXTUBE_STORAGE_ACCOUNT_NAME}
+  #     # - FLIXTUBE_STORAGE_ACCESS_KEY=${FLIXTUBE_STORAGE_ACCESS_KEY}
+  #     - FLIXTUBE_STORAGE_ACCOUNT_NAME=name
+  #     - FLIXTUBE_STORAGE_ACCESS_KEY=key
+  #     - FLIXTUBE_STORAGE_CONTAINER_NAME=videos
+  #   restart: always
+
+  video-upload:
+    image: video-upload
+    build: 
+      context: ./Flixtube.VideoUpload
+      dockerfile: Dockerfile-prod
+    container_name: video-upload
+    ports:
+     - 4050:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_VIDEO_UPLOAD_PORT=80
+      - FLIXTUBE_VIDEO_STORAGE_SCHEME=http
+      - FLIXTUBE_VIDEO_STORAGE_HOST=video-storage
+      - FLIXTUBE_VIDEO_STORAGE_PORT=80
+      - FLIXTUBE_RABBIT_MQ_HOST=amqp://rabbit_user:rabbit_password@rabbit:5672
+    depends_on:
+      - rabbit
+      - minio-storage
+      # - azure-storage
+    restart: always
+
+  video-streaming:
+    image: video-streaming
+    build: 
+      context: ./Flixtube.VideoStreaming
+      dockerfile: Dockerfile-prod
+    container_name: video-streaming
+    ports:
+     - 4040:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_VIDEO_STREAMING_PORT=80
+      - FLIXTUBE_VIDEO_STORAGE_SCHEME=http
+      - FLIXTUBE_VIDEO_STORAGE_HOST=video-storage
+      - FLIXTUBE_VIDEO_STORAGE_PORT=80
+      - FLIXTUBE_RABBIT_MQ_HOST=amqp://rabbit_user:rabbit_password@rabbit:5672
+    depends_on:
+      - rabbit
+      - minio-storage
+      # - azure-storage
+    restart: always
+
+  metadata:
+    image: metadata
+    build: 
+      context: ./Flixtube.Metadata
+      dockerfile: Dockerfile-prod
+    container_name: metadata
+    ports:
+     - 4030:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_METADATA_PORT=80
+      - FLIXTUBE_METADATA_CONNECTION_STRING=Data Source=db,1433;Initial Catalog=metadata;User Id=sa;Password=P@55w0rd;Encrypt=Yes;TrustServerCertificate=Yes;MultipleActiveResultSets=True;
+      # - FLIXTUBE_METADATA_SEED_DATABASE=True
+      - FLIXTUBE_METADATA_SEED_DATABASE=False
+      - FLIXTUBE_RABBIT_MQ_HOST=amqp://rabbit_user:rabbit_password@rabbit:5672
+    depends_on:
+      - db
+      - rabbit
+    restart: always
+
+  history:
+    image: history
+    build: 
+      context: ./Flixtube.History
+      dockerfile: Dockerfile-prod
+    container_name: history
+    ports:
+     - 4020:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_HISTORY_PORT=80
+      - FLIXTUBE_HISTORY_CONNECTION_STRING=Data Source=db,1433;Initial Catalog=history;User Id=sa;Password=P@55w0rd;Encrypt=Yes;TrustServerCertificate=Yes;MultipleActiveResultSets=True;
+      # - FLIXTUBE_HISTORY_SEED_DATABASE=True
+      - FLIXTUBE_HISTORY_SEED_DATABASE=False
+      - FLIXTUBE_RABBIT_MQ_HOST=amqp://rabbit_user:rabbit_password@rabbit:5672
+    depends_on:
+      - db
+      - rabbit
+    restart: always
+
+  gateway:
+    image: gateway
+    build: 
+      context: ./Flixtube.Gateway
+      dockerfile: Dockerfile-prod
+    container_name: gateway
+    ports:
+     - 4010:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_GATEWAY_PORT=80
+      - FLIXTUBE_METADATA_SCHEME=http
+      - FLIXTUBE_METADATA_HOST=metadata
+      - FLIXTUBE_METADATA_PORT=80
+      - FLIXTUBE_HISTORY_SCHEME=http
+      - FLIXTUBE_HISTORY_HOST=history
+      - FLIXTUBE_HISTORY_PORT=80
+      - FLIXTUBE_VIDEO_STREAMING_SCHEME=http
+      - FLIXTUBE_VIDEO_STREAMING_HOST=video-streaming
+      - FLIXTUBE_VIDEO_STREAMING_PORT=80
+      - FLIXTUBE_VIDEO_UPLOAD_SCHEME=http
+      - FLIXTUBE_VIDEO_UPLOAD_HOST=video-upload
+      - FLIXTUBE_VIDEO_UPLOAD_PORT=80
+      - FLIXTUBE_VIDEO_STORAGE_SCHEME=http
+      - FLIXTUBE_VIDEO_STORAGE_HOST=video-storage
+      - FLIXTUBE_VIDEO_STORAGE_PORT=80
+    depends_on:
+      - metadata
+      - history
+      - video-streaming
+      - video-upload
+      - minio-storage
+      # - azure-storage
+    restart: always
+
+  web:
+    image: web
+    build: 
+      context: ./Flixtube.Web
+      dockerfile: Dockerfile-prod
+    container_name: web
+    ports:
+     - 4000:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_WEB_PORT=80
+      - FLIXTUBE_GATEWAY_SCHEME=http
+      - FLIXTUBE_GATEWAY_HOST=gateway
+      - FLIXTUBE_GATEWAY_PORT=80
+      - FLIXTUBE_PUBLIC_GATEWAY_SCHEME=http
+      - FLIXTUBE_PUBLIC_GATEWAY_HOST=localhost
+      - FLIXTUBE_PUBLIC_GATEWAY_PORT=4010
+    depends_on:
+      - gateway
+    restart: always
+
+volumes:
+  rabbit_data:
+    driver: local
+  sqlserver_data:
+    driver: local
+  minio_data:
+    driver: local

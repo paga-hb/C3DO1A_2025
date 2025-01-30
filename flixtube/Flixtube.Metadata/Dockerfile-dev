@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /src
+EXPOSE 80
+COPY ./*.sln ./
+COPY ./Flixtube.Metadata/*.csproj ./Flixtube.Metadata/
+COPY ./Flixtube.Metadata.UnitTests/*.csproj ./Flixtube.Metadata.UnitTests/
+COPY ./Flixtube.Metadata.IntegrationTests/*.csproj ./Flixtube.Metadata.IntegrationTests/
+RUN ["dotnet","restore"]
+CMD ["dotnet","watch","run","--no-launch-profile","--project","Flixtube.Metadata"]

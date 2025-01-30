@@ -1,0 +1,6 @@
+@Flixtube.VideoUpload_HostAddress = http://localhost:5082
+
+GET {{Flixtube.VideoUpload_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

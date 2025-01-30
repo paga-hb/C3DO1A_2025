@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /src
+EXPOSE 80
+COPY ./*.sln ./
+COPY ./Flixtube.VideoStreaming/*.csproj ./Flixtube.VideoStreaming/
+RUN ["dotnet","restore"]
+CMD ["dotnet","watch","run","--no-launch-profile","--project","Flixtube.VideoStreaming"]

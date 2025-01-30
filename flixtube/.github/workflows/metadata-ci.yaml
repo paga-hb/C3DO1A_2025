@@ -1,0 +1,60 @@
+# 
+# GitHub Actions workflow to test the Flixtube.Metadata microservice
+#
+
+# This is the name of the workflow, displayed under GitHub Actions
+name: Integrate Flixtube.Metadata
+
+# Controls when the workflow will run
+on:
+
+  # Triggers the workflow on push to the main branch but only when changes have been made to the Flixtube.Metadata subfolder
+  push:
+    branches:
+      - main
+    paths:
+      - Flixtube.Metadata/**
+
+  # Triggers the workflow on pull_request to the main branch but only when changes have been made to the Flixtube.Metadata subfolder
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Flixtube.Metadata/**
+  
+  # Allows deployment to be invoked manually through the GitHub Actions user interface.
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # This workflow contains a single job called "integrate"
+  integrate:
+    
+    # Runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    # Environment variables that are available to all the steps in this job
+    # These environment variabels are used in the file "test.sh" below.
+    env:
+      NAME: metadata
+      CONTAINER_NAME: metadata
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      
+      # Checks-out your repository (under $GITHUB_WORKSPACE).
+      - uses: actions/checkout@v4
+
+      # # Installs Dotnet for use in the workflow.
+      # - uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: 9.0.101
+
+      # Installs Docker for use in the workflow.
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Runs tests.
+      - name: Test
+        run: chmod +x ./scripts/cicd/test.sh && ./scripts/cicd/test.sh

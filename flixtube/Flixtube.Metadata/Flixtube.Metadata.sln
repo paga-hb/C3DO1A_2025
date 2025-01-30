@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata", "Flixtube.Metadata\Flixtube.Metadata.csproj", "{A03075AE-F17D-484E-8DB1-437046FF7A86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata.UnitTests", "Flixtube.Metadata.UnitTests\Flixtube.Metadata.UnitTests.csproj", "{D0403C06-AA3C-4685-93D4-769AEE31D8A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata.IntegrationTests", "Flixtube.Metadata.IntegrationTests\Flixtube.Metadata.IntegrationTests.csproj", "{2A57864A-4F17-48C0-9F38-9D262F503131}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A03075AE-F17D-484E-8DB1-437046FF7A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03075AE-F17D-484E-8DB1-437046FF7A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03075AE-F17D-484E-8DB1-437046FF7A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03075AE-F17D-484E-8DB1-437046FF7A86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0403C06-AA3C-4685-93D4-769AEE31D8A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0403C06-AA3C-4685-93D4-769AEE31D8A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0403C06-AA3C-4685-93D4-769AEE31D8A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0403C06-AA3C-4685-93D4-769AEE31D8A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A57864A-4F17-48C0-9F38-9D262F503131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A57864A-4F17-48C0-9F38-9D262F503131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A57864A-4F17-48C0-9F38-9D262F503131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A57864A-4F17-48C0-9F38-9D262F503131}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

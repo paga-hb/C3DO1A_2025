@@ -1,0 +1,52 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers: 
+      - name: db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        imagePullPolicy: Always
+        # resources:
+        #   requests:
+        #     cpu: 100m
+        #     memory: 128Mi
+        #   limits:
+        #     cpu: 250m
+        #     memory: 256Mi
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_SA_PASSWORD
+          value: P@55w0rd
+        ports:
+        - containerPort: 1433
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  selector:
+    app: db
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 1433
+      targetPort: 1433

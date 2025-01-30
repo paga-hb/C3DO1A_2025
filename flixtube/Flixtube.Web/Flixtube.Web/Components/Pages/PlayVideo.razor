@@ -1,0 +1,51 @@
+﻿@page "/playvideo/{id}"
+@inject RestService RestService
+
+<PageTitle>Play Video</PageTitle>
+
+<div class="mt-2">
+    <a class="btn btn-primary" role="button" href="/">Home</a>
+</div>
+
+@if (video is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="m-4">
+        <h1>@title</h1>
+        <div class="m-4">
+            <video controls autoplay>
+                <source src="@VideoUrl(RestService.PublicGatewayBaseUrl, video.Id)" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public string? Id {get; set;}
+
+    private Video? video;
+
+    private string title = string.Empty;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (video is not null)
+        {
+            return;
+        }
+
+        if (Id is not null)
+        {
+            video = await RestService.GetMetadataAsync(Id);
+            title = $"{video.Name}";
+        }
+    }
+
+    private static string VideoUrl(string baseUrl, string id) => $"{baseUrl}/api/video/{id}";
+}

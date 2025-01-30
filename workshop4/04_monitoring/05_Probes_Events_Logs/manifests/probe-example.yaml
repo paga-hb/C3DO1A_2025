@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: probe-example
+  labels:
+    app: probe-example
+spec:
+  containers:
+  - name: probe-example
+    image: probe-example:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 3000
+    startupProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/started
+      initialDelaySeconds: 5
+      periodSeconds: 4
+      failureThreshold: 10
+    readinessProbe:
+      tcpSocket:
+        port: 3000
+      initialDelaySeconds: 5
+      periodSeconds: 2
+      failureThreshold: 10
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 3000
+      initialDelaySeconds: 25
+      periodSeconds: 2
+      failureThreshold: 6
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi

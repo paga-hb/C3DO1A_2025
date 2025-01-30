@@ -1,0 +1,45 @@
+﻿@page "/history"
+@inject RestService RestService
+
+<PageTitle>Viewing History</PageTitle>
+
+<div class="mt-2">
+    <a class="btn btn-primary" role="button" href="/">Home</a>
+</div>
+
+@if (viewHistory is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover caption-top mt-3">
+        <caption style="font-size: 1.5em" class="text-left text-primary font-weight-bold mt-2 mb-1">Viewing History</caption>
+        <thead class="table-dark">
+            <tr>
+                <th class="text-end">Id</th>
+                <th>ViewedAt</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var video in viewHistory)
+            {
+                <tr>
+                    <td class="text-end">@video.VideoId</td>
+                    <td>@video.ViewedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private List<ViewHistory>? viewHistory;
+
+    protected async override Task OnInitializedAsync()
+    {
+        viewHistory = await RestService.GetViewingHistoryAsync();
+    }
+}

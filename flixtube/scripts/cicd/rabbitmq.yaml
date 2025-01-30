@@ -1,0 +1,58 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbit
+  template:
+    metadata:
+      labels:
+        app: rabbit
+    spec:
+      containers: 
+      - name: rabbit
+        image: rabbitmq:4.0.2-management
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          value: rabbit_user
+        - name: RABBITMQ_DEFAULT_PASS
+          value: rabbit_password
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit
+spec:
+  selector:
+    app: rabbit
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: dashboard
+      protocol: TCP
+      port: 15672
+      targetPort: 15672

@@ -1,0 +1,76 @@
+services:
+
+  rabbit:
+    image: rabbitmq:4.0.2-management
+    # image: rabbitmq:4.0.2
+    container_name: rabbit
+    hostname: rabbithost
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbit_user
+      - RABBITMQ_DEFAULT_PASS=rabbit_password
+      - RABBITMQ_LOG_LEVEL=error
+      - RABBITMQ_LOGS="-"
+    restart: always
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq/mnesia/
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    hostname: sqlserver
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@55w0rd
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  # cloudbeaver:
+  #   image: dbeaver/cloudbeaver:24.3.1
+  #   container_name: cloudbeaver
+  #   ports:
+  #     - 8978:8978
+  #   environment:
+  #     - CB_USER=admin
+  #     - CB_PASSWORD=admin
+  #     - CB_ADMIN_NAME=admin
+  #     - CB_ADMIN_PASSWORD=admin
+  #   # restart: always
+  #   # volumes:
+  #   #   - cloudbeaver_data:/opt/cloudbeaver/workspace
+
+  history:
+    image: history
+    build: 
+      context: ./
+      dockerfile: Dockerfile-dev
+    container_name: history
+    ports:
+     - 4020:80
+    environment:
+      - FLIXTUBE_HISTORY_PORT=80
+      - FLIXTUBE_HISTORY_CONNECTION_STRING=Data Source=db,1433;Initial Catalog=history;User Id=sa;Password=P@55w0rd;Encrypt=Yes;TrustServerCertificate=Yes;MultipleActiveResultSets=True;
+      - FLIXTUBE_HISTORY_SEED_DATABASE=False
+      - FLIXTUBE_RABBIT_MQ_HOST=amqp://rabbit_user:rabbit_password@rabbit:5672
+    depends_on:
+      - db
+      - rabbit
+    restart: always
+    volumes:
+      - ./:/src
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: ./Flixtube.History
+    #       target: /src
+
+volumes:
+  rabbit_data:
+    driver: local
+  sqlserver_data:
+    driver: local

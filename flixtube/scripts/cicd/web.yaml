@@ -1,0 +1,61 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers: 
+      - name: web
+        image: $AZURE_CONTAINER_REGISTRY_HOSTNAME/$IMAGE_NAME:$IMAGE_VERSION
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: FLIXTUBE_WEB_PORT
+          value: "4000"
+        - name: FLIXTUBE_GATEWAY_SCHEME
+          value: http
+        - name: FLIXTUBE_GATEWAY_HOST
+          value: gateway
+        - name: FLIXTUBE_GATEWAY_PORT
+          value: "4010"
+        - name: FLIXTUBE_PUBLIC_GATEWAY_SCHEME
+          value: http
+        - name: FLIXTUBE_PUBLIC_GATEWAY_HOST
+          value: localhost
+        - name: FLIXTUBE_PUBLIC_GATEWAY_PORT
+          value: "4010"
+        ports:
+        - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000

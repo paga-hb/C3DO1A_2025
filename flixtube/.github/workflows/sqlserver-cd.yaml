@@ -1,0 +1,38 @@
+# 
+# GitHub Actions workflow to deploy the SQLServer microservice
+#
+
+# This is the name of the workflow, displayed under GitHub Actions
+name: Deploy SqlServer
+
+# Controls when the workflow will run
+on:
+  
+  # Allows deployment to be invoked manually through the GitHub Actions user interface.
+  workflow_dispatch: 
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # This workflow contains a single job called "deploy"
+  deploy:
+
+    # Runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      
+      # Checks-out your repository (under $GITHUB_WORKSPACE).
+      - uses: actions/checkout@v3
+
+      # Installs Kubectl and connects it to the cluster.
+      # https://github.com/marketplace/actions/kubernetes-cli-kubectl
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+          kubectl-version: v1.24.2
+
+      # Deploys SQLServer.
+      - name: Deploy SQLServer
+        run: kubectl apply -f ./scripts/cicd/sqlserver.yaml

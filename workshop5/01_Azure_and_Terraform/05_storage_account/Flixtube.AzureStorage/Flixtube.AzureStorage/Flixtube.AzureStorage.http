@@ -1,0 +1,6 @@
+@Flixtube_AzureStorage_HostAddress = http://localhost:5299
+
+GET {{Flixtube_AzureStorage_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

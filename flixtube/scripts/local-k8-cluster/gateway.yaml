@@ -1,0 +1,80 @@
+#
+# To deploy:
+#
+# kubectl apply -f scripts/deploy.yaml
+#
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers: 
+      - name: gateway
+        image: gateway:1
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: FLIXTUBE_GATEWAY_PORT
+          value: "4010"
+        - name: FLIXTUBE_METADATA_SCHEME
+          value: http
+        - name: FLIXTUBE_METADATA_HOST
+          value: metadata
+        - name: FLIXTUBE_METADATA_PORT
+          value: "4030"
+        - name: FLIXTUBE_HISTORY_SCHEME
+          value: http
+        - name: FLIXTUBE_HISTORY_HOST
+          value: history
+        - name: FLIXTUBE_HISTORY_PORT
+          value: "4020"
+        - name: FLIXTUBE_VIDEO_STREAMING_SCHEME
+          value: http
+        - name: FLIXTUBE_VIDEO_STREAMING_HOST
+          value: video-streaming
+        - name: FLIXTUBE_VIDEO_STREAMING_PORT
+          value: "4040"
+        - name: FLIXTUBE_VIDEO_UPLOAD_SCHEME
+          value: http
+        - name: FLIXTUBE_VIDEO_UPLOAD_HOST
+          value: video-upload
+        - name: FLIXTUBE_VIDEO_UPLOAD_PORT
+          value: "4050"
+        - name: FLIXTUBE_VIDEO_STORAGE_SCHEME
+          value: http
+        - name: FLIXTUBE_VIDEO_STORAGE_HOST
+          value: video-storage
+        - name: FLIXTUBE_VIDEO_STORAGE_PORT
+          value: "4060"
+        ports:
+        - containerPort: 4010
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  selector:
+    app: gateway
+  # type: NodePort
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 4010
+      targetPort: 4010

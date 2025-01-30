@@ -1,0 +1,26 @@
+services:
+
+  azure-storage:
+    image: azure-storage
+    build: 
+      context: ./Flixtube.AzureStorage
+      dockerfile: Dockerfile-dev
+    container_name: video-storage
+    ports:
+     - 4060:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FLIXTUBE_AZURE_STORAGE_PORT=80
+      # - FLIXTUBE_STORAGE_ACCOUNT_NAME=${FLIXTUBE_STORAGE_ACCOUNT_NAME}
+      # - FLIXTUBE_STORAGE_ACCESS_KEY=${FLIXTUBE_STORAGE_ACCESS_KEY}
+      - FLIXTUBE_STORAGE_ACCOUNT_NAME=name
+      - FLIXTUBE_STORAGE_ACCESS_KEY=key
+      - FLIXTUBE_STORAGE_CONTAINER_NAME=videos
+    restart: always
+    volumes:
+      - ./Flixtube.AzureStorage:/src
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: ./Flixtube.AzureStorage
+    #       target: /src

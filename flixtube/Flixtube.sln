@@ -1,0 +1,111 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.AzureStorage", "Flixtube.AzureStorage", "{DE7C7C1D-1FC1-4A1F-9288-F4D7E6413D85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.AzureStorage", "Flixtube.AzureStorage\Flixtube.AzureStorage\Flixtube.AzureStorage.csproj", "{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.Gateway", "Flixtube.Gateway", "{F1956BB9-5527-405C-9E14-72E632850CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Gateway", "Flixtube.Gateway\Flixtube.Gateway\Flixtube.Gateway.csproj", "{BC64539F-C96B-4DB1-BDFA-ACC301505C4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.History", "Flixtube.History", "{2FDE6C8D-1EBC-477C-BA9B-144D8BDB424E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.History", "Flixtube.History\Flixtube.History\Flixtube.History.csproj", "{38CBB9D0-EE12-4825-9616-97338651693E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.Metadata", "Flixtube.Metadata", "{C900A106-F58B-4AA0-B165-28FF004700B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata", "Flixtube.Metadata\Flixtube.Metadata\Flixtube.Metadata.csproj", "{A17DF231-FB90-4705-AD64-9FE67D1001D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata.UnitTests", "Flixtube.Metadata\Flixtube.Metadata.UnitTests\Flixtube.Metadata.UnitTests.csproj", "{44ECD718-722E-4AD4-962D-B33DE03CFC38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.MinioStorage", "Flixtube.MinioStorage", "{4CDE8BA3-CE67-4554-BB95-EC2F1A853A25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.MinioStorage", "Flixtube.MinioStorage\Flixtube.MinioStorage\Flixtube.MinioStorage.csproj", "{EC7B152C-28FD-4BB6-A445-E0A595AAF403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.VideoStreaming", "Flixtube.VideoStreaming", "{49C840D0-E3B1-4772-8680-303475867D1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.VideoStreaming", "Flixtube.VideoStreaming\Flixtube.VideoStreaming\Flixtube.VideoStreaming.csproj", "{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.VideoUpload", "Flixtube.VideoUpload", "{ADE19031-4C45-4DF6-81D3-D46B59377F2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.VideoUpload", "Flixtube.VideoUpload\Flixtube.VideoUpload\Flixtube.VideoUpload.csproj", "{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flixtube.Web", "Flixtube.Web", "{CD8F0E26-52FA-4DBD-AAE8-8E373EE48948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Web", "Flixtube.Web\Flixtube.Web\Flixtube.Web.csproj", "{776EBC56-29B0-472C-A63C-671182CBCE3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Metadata.IntegrationTests", "Flixtube.Metadata\Flixtube.Metadata.IntegrationTests\Flixtube.Metadata.IntegrationTests.csproj", "{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Web.EndToEndTests", "Flixtube.Web\Flixtube.Web.EndToEndTests\Flixtube.Web.EndToEndTests.csproj", "{66F94BE4-0226-4BA2-8615-02F058E59ECB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC64539F-C96B-4DB1-BDFA-ACC301505C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC64539F-C96B-4DB1-BDFA-ACC301505C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC64539F-C96B-4DB1-BDFA-ACC301505C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC64539F-C96B-4DB1-BDFA-ACC301505C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CBB9D0-EE12-4825-9616-97338651693E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CBB9D0-EE12-4825-9616-97338651693E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CBB9D0-EE12-4825-9616-97338651693E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CBB9D0-EE12-4825-9616-97338651693E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17DF231-FB90-4705-AD64-9FE67D1001D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17DF231-FB90-4705-AD64-9FE67D1001D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17DF231-FB90-4705-AD64-9FE67D1001D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17DF231-FB90-4705-AD64-9FE67D1001D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44ECD718-722E-4AD4-962D-B33DE03CFC38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44ECD718-722E-4AD4-962D-B33DE03CFC38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44ECD718-722E-4AD4-962D-B33DE03CFC38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44ECD718-722E-4AD4-962D-B33DE03CFC38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC7B152C-28FD-4BB6-A445-E0A595AAF403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC7B152C-28FD-4BB6-A445-E0A595AAF403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC7B152C-28FD-4BB6-A445-E0A595AAF403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC7B152C-28FD-4BB6-A445-E0A595AAF403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{776EBC56-29B0-472C-A63C-671182CBCE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{776EBC56-29B0-472C-A63C-671182CBCE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{776EBC56-29B0-472C-A63C-671182CBCE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{776EBC56-29B0-472C-A63C-671182CBCE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F94BE4-0226-4BA2-8615-02F058E59ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F94BE4-0226-4BA2-8615-02F058E59ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F94BE4-0226-4BA2-8615-02F058E59ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F94BE4-0226-4BA2-8615-02F058E59ECB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D925BF3-B1DE-4AE9-8D86-3BCA80678D61} = {DE7C7C1D-1FC1-4A1F-9288-F4D7E6413D85}
+		{BC64539F-C96B-4DB1-BDFA-ACC301505C4E} = {F1956BB9-5527-405C-9E14-72E632850CFE}
+		{38CBB9D0-EE12-4825-9616-97338651693E} = {2FDE6C8D-1EBC-477C-BA9B-144D8BDB424E}
+		{A17DF231-FB90-4705-AD64-9FE67D1001D5} = {C900A106-F58B-4AA0-B165-28FF004700B3}
+		{44ECD718-722E-4AD4-962D-B33DE03CFC38} = {C900A106-F58B-4AA0-B165-28FF004700B3}
+		{EC7B152C-28FD-4BB6-A445-E0A595AAF403} = {4CDE8BA3-CE67-4554-BB95-EC2F1A853A25}
+		{4F5488DC-16F2-48F2-B8CC-C10D9B56E03F} = {49C840D0-E3B1-4772-8680-303475867D1D}
+		{97A1451D-DA3B-43C2-BD1F-55B3F8100A9A} = {ADE19031-4C45-4DF6-81D3-D46B59377F2A}
+		{776EBC56-29B0-472C-A63C-671182CBCE3F} = {CD8F0E26-52FA-4DBD-AAE8-8E373EE48948}
+		{8FB36A5E-15BA-4CEC-8C13-CD147224E5AE} = {C900A106-F58B-4AA0-B165-28FF004700B3}
+		{66F94BE4-0226-4BA2-8615-02F058E59ECB} = {CD8F0E26-52FA-4DBD-AAE8-8E373EE48948}
+	EndGlobalSection
+EndGlobal

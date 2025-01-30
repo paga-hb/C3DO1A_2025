@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-streaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-streaming
+  template:
+    metadata:
+      labels:
+        app: video-streaming
+    spec:
+      containers: 
+      - name: video-streaming
+        image: flixtube2025g00.azurecr.io/video-streaming:1
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: FLIXTUBE_VIDEO_STREAMING_PORT
+          value: "3000"
+        - name: FLIXTUBE_STORAGE_FOLDER_NAME
+          value: "videos"  
+        resources:
+          requests:
+            cpu: 256m
+            memory: 256Mi
+          limits:
+            cpu: 512m
+            memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-streaming
+spec:
+  selector:
+    app: video-streaming
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

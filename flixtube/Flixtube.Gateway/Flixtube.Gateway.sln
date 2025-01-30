@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Gateway", "Flixtube.Gateway\Flixtube.Gateway.csproj", "{716C33A7-D136-4F0B-B8C9-0AAD963F353D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Gateway.UnitTests", "Flixtube.Gateway.UnitTests\Flixtube.Gateway.UnitTests.csproj", "{FFBE3428-1BEC-4508-985F-7D476AA1F223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Gateway.IntegrationTests", "Flixtube.Gateway.IntegrationTests\Flixtube.Gateway.IntegrationTests.csproj", "{7A06EE2B-BE67-4EA6-ADA5-989FE228229B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{716C33A7-D136-4F0B-B8C9-0AAD963F353D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716C33A7-D136-4F0B-B8C9-0AAD963F353D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716C33A7-D136-4F0B-B8C9-0AAD963F353D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716C33A7-D136-4F0B-B8C9-0AAD963F353D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFBE3428-1BEC-4508-985F-7D476AA1F223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFBE3428-1BEC-4508-985F-7D476AA1F223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFBE3428-1BEC-4508-985F-7D476AA1F223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFBE3428-1BEC-4508-985F-7D476AA1F223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A06EE2B-BE67-4EA6-ADA5-989FE228229B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A06EE2B-BE67-4EA6-ADA5-989FE228229B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A06EE2B-BE67-4EA6-ADA5-989FE228229B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A06EE2B-BE67-4EA6-ADA5-989FE228229B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
