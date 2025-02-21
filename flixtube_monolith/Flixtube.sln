@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Data", "Flixtube.Data\Flixtube.Data.csproj", "{10C5CD70-043A-4F13-B0A8-57C44D0EC901}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Gateway", "Flixtube.Gateway\Flixtube.Gateway.csproj", "{B7140DBA-2863-4F8D-A86F-CE54F7140143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flixtube.Web", "Flixtube.Web\Flixtube.Web.csproj", "{5BA69E1C-F96C-49B7-8832-ABBD5B1FF3AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10C5CD70-043A-4F13-B0A8-57C44D0EC901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10C5CD70-043A-4F13-B0A8-57C44D0EC901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10C5CD70-043A-4F13-B0A8-57C44D0EC901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10C5CD70-043A-4F13-B0A8-57C44D0EC901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7140DBA-2863-4F8D-A86F-CE54F7140143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7140DBA-2863-4F8D-A86F-CE54F7140143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7140DBA-2863-4F8D-A86F-CE54F7140143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7140DBA-2863-4F8D-A86F-CE54F7140143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA69E1C-F96C-49B7-8832-ABBD5B1FF3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA69E1C-F96C-49B7-8832-ABBD5B1FF3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA69E1C-F96C-49B7-8832-ABBD5B1FF3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA69E1C-F96C-49B7-8832-ABBD5B1FF3AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

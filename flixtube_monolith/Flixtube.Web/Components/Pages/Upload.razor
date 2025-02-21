@@ -1,0 +1,54 @@
+﻿@page "/upload"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject RestService RestService
+
+<div class="mt-2">
+    <a class="btn btn-primary" role="button" href="/">Home</a>
+</div>
+
+<div class="row">
+    <caption style="font-size: 1.5em" class="text-left text-primary font-weight-bold mt-2 mb-1">Upload Video</caption>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <InputFile id="inputfile" class="form-control btn btn-success" OnChange="HandleFileSelected" />
+        </div>
+        <button @onclick="UploadFile" class="btn btn-primary">Upload</button>
+        <a role="button" class="btn btn-secondary" href="/">Cancel</a>
+    </div>
+</div>
+
+<p>@statusMessage</p>
+
+@code {
+    private IBrowserFile selectedFile = null!;
+    private string statusMessage = null!;
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task UploadFile()
+    {
+        if (selectedFile == null)
+        {
+            statusMessage = "No file selected.";
+            return;
+        }
+
+        bool isSuccess = await RestService.UploadVideoAsync(selectedFile);
+        if (isSuccess)
+        {
+            statusMessage = "File uploaded successfully!";
+            await Task.Delay(1000);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            statusMessage = "File upload failed.";
+        }
+    }
+}
