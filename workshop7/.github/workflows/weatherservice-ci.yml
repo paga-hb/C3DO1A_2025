@@ -1,0 +1,89 @@
+# 
+# GitHub Actions workflow to test the WeatherService microservice
+#
+
+# This is the name of the workflow (displayed in the left margin under the GitHub Actions tab in GitHub's Web UI)
+# We can call this anything we like
+name: Integrate WeatherService
+
+# The entries under "on" control when the workflow will be run
+# (i.e. what events trigger the workflow to be run)
+on:
+
+  # This configuration triggers the workflow:
+  # - On a "push" ...
+  # - ... to the "main" branch ...
+  # - ... but only when changes have been made to any folder/file under the "WeatherService" folder, including subfolders.
+  #   ("/**" means "all subfolders recursively").
+  push:
+    branches:
+      - main
+    paths:
+      - WeatherService/**
+
+  # This configuration triggers the workflow:
+  # - On a "pull_request" ...
+  # - ... to the "main" branch ...
+  # - ... but only when changes have been made to any folder/file under the "WeatherService" folder, including subfolders.
+  pull_request:
+    branches:
+      - main
+    paths:
+      - WeatherService/**
+  
+  # The configuration allows the workflow to be triggers manually through the GitHub Actions user interface.
+  # When choosing the workflow in the left margin under the Actions tab in GitHub's Web UI,
+  # there will be a "Run" drop-down listbox in the Web UI's far right, which can be used to manually trigger the workflow.
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# Jobs are defined as entries under "jobs"
+jobs:
+
+  # This workflow contains a single job called "integrate" (the name will be shown in the workflow's output when it's run).
+  # We can call this anything we like.
+  integrate:
+    
+    # Runs on the latest version of Ubuntu
+    # GitHub will create a virtual machine or container, where we can choose what image to use under "runs-on"
+    # In this case, the virtual machine/container is based on the latest version of Ubuntu (a Linux distro)
+    runs-on: ubuntu-latest
+
+    # Under "env", we can define environment variables that will be available in the virtual machine/container created above.
+    env:
+      NAME: weatherservice
+      CONTAINER_NAME: weatherservice
+    
+    # "Steps" represents a sequence of tasks that will be executed as part of the job
+    steps:
+      
+      # The "uses" instruction is used to execute a pre-defined action
+      # In this case, the "actions/checkout@v4" is used
+      # This action basically does a "git clone" in the virtual machine/container created above to copy this repository to it
+      - uses: actions/checkout@v4
+
+      # This pre-defined action installs Dotnet in the virtual machine/container created above
+      # A "uses" action can be configured using a "with" section.
+      # In this case, the version of dotnet to install is configured to version 9.0.101.
+      # This means we can now run "dotnet" commands in the virtual machine/container created above
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.101
+
+      # Every step can be given a name (which will be shown in the workflow's output when it runs)
+      # In this case we are calling the step "Set up Docker" (we can call it anything we like)
+      # Then, as part of the same step, we are using a pre-defined action that installs Docker into the virtual machine/container
+      # This means we can now run "docker" commands in the virtual machine/container created above
+      # Note: Currently we aren't using any Docker commands inside the virtual machine/container in this workflow 
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # This step is given the name "Test"
+      # Then the "run" instruction is used to run a command inside the virtual machine/container created above
+      # In this case we are running the command "dotnet test WeatherService"
+      # - The "dotnet test" command will find the Solution file "WeatherService/WeatherService.sln"
+      # - The Solution file contains a project reference to "WeatherService/WeatherServiceTests/WeatherServiceTests.csproj"
+      # - The project file contains information about the project being of type "xUnit"
+      # - The "dotnet test" command finds all tests in WeatherServiceTests and executes them
+      - name: Test
+        run: dotnet test WeatherService
